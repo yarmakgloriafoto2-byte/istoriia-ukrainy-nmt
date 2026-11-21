@@ -10,27 +10,19 @@ const features=[
 "Зрівняльний поділ продуктів",
 "Язичницькі вірування"
 ];
-const node=(text,i)=>'<div class="diagram-node diagram-node-'+(i+1)+'"><span class="diagram-index">'+String(i+1).padStart(2,"0")+'</span><p>'+esc(text)+'</p></div>';
-slide5.innerHTML='<h1 class="heading"><small>Тема 1.</small> Стародавня історія України</h1><h2 class="sub">Первіснообщинний лад</h2><div class="diagram-network"><div class="diagram-col left">'+features.slice(0,3).map((t,i)=>node(t,i)).join("")+'</div><div class="diagram-core" aria-hidden="true"><div class="core-medallion"><svg viewBox="0 0 220 250" xmlns="http://www.w3.org/2000/svg" role="img"><circle cx="110" cy="125" r="103" fill="#f4f0e5" stroke="#c1a772" stroke-width="2"/><circle cx="110" cy="125" r="88" fill="none" stroke="#bec6b4" stroke-width="1.3" stroke-dasharray="2 7"/><g fill="#4d6043"><circle cx="110" cy="96" r="21"/><path d="M87 119Q110 113 133 119L144 182H76Z"/></g><g fill="#8e9d83"><circle cx="65" cy="114" r="17"/><path d="M48 132Q65 126 82 133L91 186H38Z"/><circle cx="155" cy="114" r="17"/><path d="M138 132Q155 126 172 133L182 186H129Z"/></g><path d="M48 195Q110 210 172 195" fill="none" stroke="#b98d67" stroke-width="3"/><path d="M76 55L110 40L144 55" fill="none" stroke="#b98d67" stroke-width="2"/></svg></div><div class="core-caption">Ознаки суспільного устрою</div></div><div class="diagram-col right">'+features.slice(3).map((t,i)=>node(t,i+3)).join("")+'</div></div>';
+const node=(text,i)=>'<div class="diagram-node diagram-node-'+(i+1)+'"><p>'+esc(text)+'</p></div>';
+slide5.innerHTML='<h1 class="heading"><small>Тема 1.</small> Стародавня історія України</h1><h2 class="sub">Первіснообщинний лад</h2><div class="diagram-network"><div class="diagram-col left">'+features.slice(0,3).map((t,i)=>node(t,i)).join("")+'</div><div class="diagram-col right">'+features.slice(3).map((t,i)=>node(t,i+3)).join("")+'</div></div>';
 const diagramCss=String.raw`
 .slide.diagram-page{padding:30px 44px 28px;background:linear-gradient(122deg,rgba(244,240,226,.55),transparent 37%),#fbfaf6;}
 .slide.diagram-page::before{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,#7b3e48 0 12%,#c5a361 12% 24%,#4d6043 24% 100%);}
 .diagram-page .heading{border-bottom:1px solid #c8cdbf;padding:0 0 10px;margin:0 0 16px;display:flex;align-items:baseline;gap:.7em;font-size:44.8px;line-height:1.12;}
 .diagram-page .heading small{font-size:.68em;font-weight:700;color:#7b3e48;padding-left:13px;border-left:4px solid #bf9a60;}
 .diagram-page .sub{font:700 43px/1.1 Philosopher,Georgia,serif;color:#4d6043;margin:0 0 19px;}
-.diagram-network{display:grid;grid-template-columns:minmax(0,1fr) 240px minmax(0,1fr);gap:18px;flex:1;min-height:0;align-items:stretch;}
+.diagram-network{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;flex:1;min-height:0;align-items:stretch;}
 .diagram-col{display:grid;grid-template-rows:repeat(3,minmax(0,1fr));gap:16px;}
-.diagram-node{position:relative;background:linear-gradient(96deg,#f0efe6,#faf9f5);border-top:2px solid #b1bfa9;border-bottom:1px solid #d0d6ca;display:flex;align-items:center;padding:17px 22px 17px 66px;min-width:0;}
+.diagram-node{position:relative;background:linear-gradient(96deg,#f0efe6,#faf9f5);border-top:2px solid #b1bfa9;border-bottom:1px solid #d0d6ca;display:flex;align-items:center;padding:22px 26px;min-width:0;}
 .diagram-node:nth-child(2){border-top-color:#c4a16b;}
 .diagram-node:nth-child(3){border-top-color:#9ea98f;}
-.diagram-node p{font:400 27px/1.31 Literata,Georgia,serif;color:#29312b;margin:0;}
-.diagram-index{position:absolute;left:15px;top:17px;width:36px;height:36px;border:1px solid #ba9c67;border-radius:50%;display:grid;place-items:center;color:#7b3e48;font:700 20px/1 Philosopher,Georgia,serif;background:#fbfaf6;}
-.diagram-col.left .diagram-node::after{content:"";position:absolute;right:-19px;top:50%;width:19px;height:2px;background:#b7a77b;}
-.diagram-col.right .diagram-node::before{content:"";position:absolute;left:-19px;top:50%;width:19px;height:2px;background:#b7a77b;}
-.diagram-core{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;position:relative;}
-.diagram-core::before{content:"";position:absolute;top:12%;bottom:12%;left:50%;width:2px;background:linear-gradient(transparent,#c2af83 17%,#c2af83 83%,transparent);z-index:0;}
-.core-medallion{width:230px;height:265px;position:relative;z-index:1;background:#fbfaf6;display:flex;justify-content:center;align-items:center;}
-.core-medallion svg{width:100%;height:100%;}
-.core-caption{position:relative;z-index:1;background:#fbfaf6;color:#7b3e48;text-align:center;max-width:230px;padding:8px 10px;font:700 24px/1.15 Philosopher,Georgia,serif;}
+.diagram-node p{font:400 36px/1.27 Literata,Georgia,serif;color:#29312b;margin:0;}
 `;
 const style=doc.createElement("style");style.textContent=css+diagramCss;doc.head.append(style);done=true;}const frame=document.getElementById("book-frame");frame.addEventListener("load",()=>{try{update(frame.contentDocument)}catch(e){console.error(e)}},{once:true});if(frame.contentDocument?.readyState==="complete")update(frame.contentDocument)})();
