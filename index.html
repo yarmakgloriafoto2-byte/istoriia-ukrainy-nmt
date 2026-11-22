@@ -1,1 +1,77 @@
-<!doctype html><html lang="uk"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Історія України – навчальний посібник, 7–9 класи</title><style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#fbfaf6}#book-frame{border:0;display:block;width:100%;height:100%;}</style></head><body><iframe id="book-frame" src="legacy.html?v=20261122-5" title="Історія України – посібник для НМТ" allow="fullscreen" allowfullscreen></iframe><script src="source-pages.js?v=20261122-5"></script></body></html>
+<!doctype html><html lang="uk"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Історія України – навчальний посібник, 7–9 класи</title><style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#fbfaf6}#book-frame{border:0;display:block;width:100%;height:100%;}</style></head><body><iframe id="book-frame" src="legacy.html?v=20261122-5" title="Історія України – посібник для НМТ" allow="fullscreen" allowfullscreen></iframe><script>(()=>{
+const features=["Низький рівень розвитку продуктивних сил, майже повна залежність від природи","Рівність усіх членів суспільства","Колективний характер праці","Спільна власність на знаряддя та результати праці","Зрівняльний поділ продуктів","Язичницькі вірування"];
+const css="\n.slide.diagram-page{padding:30px 44px 28px;background:linear-gradient(122deg,rgba(244,240,226,.55),transparent 37%),#fbfaf6;}\n.slide.diagram-page::before{content:\"\";position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,#7b3e48 0 12%,#c5a361 12% 24%,#4d6043 24% 100%);}\n.diagram-page .heading{border-bottom:1px solid #c8cdbf;padding:0 0 10px;margin:0 0 16px;display:flex;align-items:baseline;gap:.7em;font-size:44.8px;line-height:1.12;}\n.diagram-page .heading small{font-size:.68em;font-weight:700;color:#7b3e48;padding-left:13px;border-left:4px solid #bf9a60;}\n.diagram-page .sub{font:700 43px/1.1 Philosopher,Georgia,serif;color:#4d6043;margin:0 0 12px;}\n.diagram-page .diagram-label{font:700 46px/1.12 Philosopher,Georgia,serif;color:#4d6043;letter-spacing:0;text-align:left;margin:0 0 22px;position:relative;}\n.diagram-page .diagram-label span{color:#7b3e48;}\n\n.diagram-network{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;flex:1;min-height:0;align-items:stretch;}\n.diagram-col{display:grid;grid-template-rows:repeat(3,minmax(0,1fr));gap:16px;}\n.diagram-node{background:linear-gradient(96deg,#f0efe6,#faf9f5);border-top:2px solid #b1bfa9;border-bottom:1px solid #d0d6ca;display:flex;align-items:center;justify-content:center;text-align:center;padding:18px 25px;min-width:0;}\n.diagram-node:nth-child(2){border-top-color:#c4a16b;}\n.diagram-node:nth-child(3){border-top-color:#9ea98f;}\n.diagram-node p{font:400 36px/1.27 Literata,Georgia,serif;color:#29312b;margin:0;}
+.diagram-page .vertical-shell{display:grid;grid-template-columns:106px minmax(0,1fr);gap:26px;flex:1;min-height:0;}
+.diagram-page .vertical-topic{background:linear-gradient(180deg,#f2f0e7,#faf9f5);border-right:2px solid #b9a476;border-left:4px solid #4d6043;display:flex;align-items:center;justify-content:center;gap:24px;padding:16px 0;writing-mode:vertical-rl;transform:rotate(180deg);font:700 31px/1.12 Philosopher,Georgia,serif;color:#4d6043;letter-spacing:.015em;}
+.diagram-page .vertical-topic-prefix{color:#7b3e48;font-size:27px;}
+.diagram-page .diagram-main{display:flex;flex-direction:column;min-width:0;min-height:0;}
+.diagram-page .diagram-label{font-size:46px;margin:4px 0 20px;padding-bottom:14px;border-bottom:1px solid #c8cdbf;}
+\n";
+function esc(s){return s.replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");}
+function initialize(){
+const frame=document.getElementById("book-frame");
+const doc=frame?.contentDocument;
+const win=frame?.contentWindow;
+if(!doc||!win||win.__fiveSlidesReady)return;
+const book=doc.querySelector(".book");
+const slides=[...doc.querySelectorAll(".slide")];
+if(!book||slides.length<4)return;
+// The published baseline has FOUR original slides. Create slide 5 instead of assuming it exists.
+let slide5=slides[4];
+if(!slide5){
+slide5=doc.createElement("article");
+book.appendChild(slide5);
+}
+slide5.className="slide cleanpage lesson-sources diagram-page";
+slide5.setAttribute("aria-label","Сторінка 5: Первіснообщинний лад");
+const card=text=>'<div class="diagram-node"><p>'+esc(text)+'</p></div>';
+slide5.innerHTML='<div class="vertical-shell"><aside class="vertical-topic"><span class="vertical-topic-prefix">Тема 1.</span><span>Стародавня історія України</span></aside><div class="diagram-main"><h1 class="diagram-label"><span>ОЗНАКИ</span> ПЕРВІСНООБЩИННОГО ЛАДУ</h1><div class="diagram-network"><div class="diagram-col">'+features.slice(0,3).map(card).join("")+'</div><div class="diagram-col">'+features.slice(3).map(card).join("")+'</div></div></div></div>';
+[...doc.querySelectorAll(".slide")].slice(5).forEach(slide=>slide.remove());
+const style=doc.createElement("style");
+style.textContent=css;
+doc.head.append(style);
+// Original navigation captures a four-slide array; replace it with five-slide navigation.
+const five=[...doc.querySelectorAll(".slide")];
+let pos=0;
+function go(i){
+pos=((i%5)+5)%5;
+five.forEach((slide,k)=>slide.classList.toggle("active",k===pos));
+const counter=doc.getElementById("counter");
+if(counter)counter.textContent=(pos+1)+" / 5";
+}
+win.show=go;
+for(const [id,step] of [["prev",-1],["next",1]]){
+ const button=doc.getElementById(id);
+ if(button){
+ const replacement=button.cloneNode(true);
+ button.replaceWith(replacement);
+ replacement.addEventListener("click",event=>{event.stopPropagation();go(pos+step);});
+ }
+}
+book.addEventListener("click",event=>{
+if(event.button!==0||event.target.closest("button,a,input,select,textarea,[role=button]"))return;
+const selection=win.getSelection();
+if(selection&&!selection.isCollapsed)return;
+const rect=book.getBoundingClientRect();
+const x=event.clientX-rect.left;
+if(x<0||x>rect.width)return;
+event.stopImmediatePropagation();
+go(pos+(x>=rect.width/2?1:-1));
+},true);
+doc.addEventListener("keydown",event=>{
+if(event.target.closest("input,textarea,select,[contenteditable=true]"))return;
+if(["ArrowRight","PageDown","ArrowLeft","PageUp"].includes(event.key)){
+event.stopImmediatePropagation();
+event.preventDefault();
+go(pos+(["ArrowRight","PageDown"].includes(event.key)?1:-1));
+}
+},true);
+go(0);
+win.__fiveSlidesReady=true;
+}
+const frame=document.getElementById("book-frame");
+if(frame){
+frame.addEventListener("load",initialize);
+if(frame.contentDocument?.readyState==="complete")initialize();
+}
+})();</script></body></html>
