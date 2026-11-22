@@ -13,27 +13,60 @@ const frame=document.getElementById("book-frame");
 const doc=frame?.contentDocument;
 const win=frame?.contentWindow;
 if(!doc||!win||win.__fiveSlidesReady)return;
+const book=doc.querySelector(".book");
 const slides=[...doc.querySelectorAll(".slide")];
-if(slides.length<5)return;
-const slide5=slides[4];
+if(!book||slides.length<4)return;
+// The published baseline has FOUR original slides. Create slide 5 instead of assuming it exists.
+let slide5=slides[4];
+if(!slide5){
+slide5=doc.createElement("article");
+book.appendChild(slide5);
+}
 slide5.className="slide cleanpage lesson-sources diagram-page";
 slide5.setAttribute("aria-label","Сторінка 5: Первіснообщинний лад");
 const card=text=>'<div class="diagram-node"><p>'+esc(text)+'</p></div>';
 slide5.innerHTML='<div class="vertical-shell"><aside class="vertical-topic"><span class="vertical-topic-prefix">Тема 1.</span><span>Стародавня історія України</span></aside><div class="diagram-main"><h1 class="diagram-label"><span>ОЗНАКИ</span> ПЕРВІСНООБЩИННОГО ЛАДУ</h1><div class="diagram-network"><div class="diagram-col">'+features.slice(0,3).map(card).join("")+'</div><div class="diagram-col">'+features.slice(3).map(card).join("")+'</div></div></div></div>';
-slides.slice(5).forEach(slide=>slide.remove());
+[...doc.querySelectorAll(".slide")].slice(5).forEach(slide=>slide.remove());
 const style=doc.createElement("style");
 style.textContent=css;
 doc.head.append(style);
-const oldShow=win.show;
-if(typeof oldShow==="function"){
-win.show=function(i){
- const pos=((i%5)+5)%5;
- oldShow(pos);
- const counter=doc.getElementById("counter");
- if(counter)counter.textContent=(pos+1)+" / 5";
-};
-win.show(0);
+// Original navigation captures a four-slide array; replace it with five-slide navigation.
+const five=[...doc.querySelectorAll(".slide")];
+let pos=0;
+function go(i){
+pos=((i%5)+5)%5;
+five.forEach((slide,k)=>slide.classList.toggle("active",k===pos));
+const counter=doc.getElementById("counter");
+if(counter)counter.textContent=(pos+1)+" / 5";
 }
+win.show=go;
+for(const [id,step] of [["prev",-1],["next",1]]){
+ const button=doc.getElementById(id);
+ if(button){
+ const replacement=button.cloneNode(true);
+ button.replaceWith(replacement);
+ replacement.addEventListener("click",event=>{event.stopPropagation();go(pos+step);});
+ }
+}
+book.addEventListener("click",event=>{
+if(event.button!==0||event.target.closest("button,a,input,select,textarea,[role=button]"))return;
+const selection=win.getSelection();
+if(selection&&!selection.isCollapsed)return;
+const rect=book.getBoundingClientRect();
+const x=event.clientX-rect.left;
+if(x<0||x>rect.width)return;
+event.stopImmediatePropagation();
+go(pos+(x>=rect.width/2?1:-1));
+},true);
+doc.addEventListener("keydown",event=>{
+if(event.target.closest("input,textarea,select,[contenteditable=true]"))return;
+if(["ArrowRight","PageDown","ArrowLeft","PageUp"].includes(event.key)){
+event.stopImmediatePropagation();
+event.preventDefault();
+go(pos+(["ArrowRight","PageDown"].includes(event.key)?1:-1));
+}
+},true);
+go(0);
 win.__fiveSlidesReady=true;
 }
 const frame=document.getElementById("book-frame");
